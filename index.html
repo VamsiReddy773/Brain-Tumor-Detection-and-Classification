@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Tumor Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            max-width: 600px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Brain Tumor Detection</h2>
+        <p class="text-center">Upload a brain MRI image to predict the type of tumor.</p>
+        <form id="upload-form" action="/predict" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Select Image</label>
+                <input type="file" name="file" id="file" class="form-control" accept="image/*" required>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Predict</button>
+            </div>
+        </form>
+        <div id="result" class="mt-4 text-center" style="display: none;">
+            <h4>Prediction Result</h4>
+            <p id="prediction" style="font-weight: bold;"></p>
+            <p id="description"></p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('upload-form');
+        const resultDiv = document.getElementById('result');
+        const predictionText = document.getElementById('prediction');
+        const descriptionText = document.getElementById('description');
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error in prediction');
+                }
+
+                const data = await response.json();
+
+                predictionText.textContent = `Predicted Class: ${data.prediction}`;
+                descriptionText.textContent = data.description;
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                predictionText.textContent = 'Error: Unable to process the image.';
+                descriptionText.textContent = '';
+                resultDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
