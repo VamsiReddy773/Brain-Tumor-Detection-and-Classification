@@ -50,5 +50,89 @@ To set up the project locally, follow these steps:
    git clone https://github.com/your-username/brain-tumor-detection.git
    cd brain-tumor-detection
    ```
-
+# Install Dependencies:
 pip install -r requirements.txt
+
+
+#Run the Web Interface:
+streamlit run app.py
+
+## Usage
+
+# Training the Model:
+Run the training script to train the deep learning model:
+bash
+Copy
+python train.py
+Using the Web Interface:
+Start the Streamlit app:
+bash
+streamlit run app.py
+Upload an MRI image through the web interface to get real-time predictions.
+Methodology
+
+# Data Collection
+
+The dataset used in this project is the BraTS dataset, which contains MRI images of brain tumors. The dataset is divided into training, validation, and testing sets.
+
+# Data Preprocessing
+
+Resizing: Images are resized to 224x224 pixels.
+Normalization: Pixel values are scaled to the range [0, 1].
+Data Augmentation: Techniques like rotation, flipping, and scaling are applied to increase dataset diversity.
+Model Architecture
+
+The model uses a CNN-based architecture with transfer learning. Pre-trained models like VGG16 and ResNet are fine-tuned on the brain tumor dataset.
+
+python
+Copy
+from tensorflow.keras.applications import VGG16
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Dense, Flatten
+
+# Load pre-trained VGG16 model
+base_model = VGG16(weights="imagenet", include_top=False, input_shape=(224, 224, 3))
+base_model.trainable = False
+
+# Add custom layers
+x = base_model.output
+x = Flatten()(x)
+x = Dense(256, activation="relu")(x)
+predictions = Dense(4, activation="softmax")(x)
+
+# Create the final model
+model = Model(inputs=base_model.input, outputs=predictions)
+model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
+Evaluation Metrics
+
+# The model's performance is evaluated using:
+
+Accuracy: 96.83%
+Precision: 93.13%
+Recall: 94.8%
+F1-Score: 93.9%
+Confusion Matrix: Visualizes the model's predictions.
+Results
+
+# The model achieved the following results on the test dataset:
+
+Accuracy: 96.83%
+Precision: 93.13%
+Recall: 94.8%
+F1-Score: 93.9%
+The confusion matrix and classification report provide detailed insights into the model's performance.
+
+# Future Work
+
+Multi-Modal Imaging: Integrate MRI with CT or PET scans for improved accuracy.
+Model Interpretability: Use explainable AI techniques like Grad-CAM to provide insights into model predictions.
+Real-Time Deployment: Deploy the system in clinical settings for real-time tumor detection.
+Contributing
+
+# Contributions are welcome! If you'd like to contribute, please follow these steps:
+
+Fork the repository.
+Create a new branch (git checkout -b feature/YourFeature).
+Commit your changes (git commit -m 'Add some feature').
+Push to the branch (git push origin feature/YourFeature).
+Open a pull request.
