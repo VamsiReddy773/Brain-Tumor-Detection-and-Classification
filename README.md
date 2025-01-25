@@ -1,4 +1,4 @@
-# Brain Tumor Detection Using Deep Learning
+# Brain Tumor Detection Using Deep Learning Methods
 
 ![GitHub](https://img.shields.io/badge/License-MIT-blue)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-green)
