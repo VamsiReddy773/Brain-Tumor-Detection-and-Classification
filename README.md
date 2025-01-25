@@ -47,7 +47,7 @@ To set up the project locally, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/brain-tumor-detection.git
+   git clone https://github.com/VamsiReddy773/brain-tumor-detection.git
    cd brain-tumor-detection
    ```
 # Install Dependencies:
